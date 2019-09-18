@@ -2,7 +2,10 @@ const router = require("express").Router();
 
 const Users = require("../user/user-model.js");
 
-router.get("/", async (req, res) => {
+// middleware
+const mw = require("../middleware/restricted.js");
+
+router.get("/", mw.verifyToken, async (req, res) => {
   try {
     const result = await Users.getUsers();
     if (result) {
